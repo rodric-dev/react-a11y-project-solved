@@ -67,7 +67,32 @@ export function add(numbers: string): number {
   //   Example: add("//#\n1#2#-3#4");
 
 
-  // step-8
+  // step-8 (ignore numbers greater than 1000)
+//   if (!numbers) return 0;
+
+//   let delimiter = /,|\n/;
+//   let nums = numbers;
+
+//   if (numbers.startsWith("//")) {
+//     const parts = numbers.split("\n");
+//     const custom = parts[0].substring(2);
+//     // Escape regex special characters to avoid breaking RegExp
+//     delimiter = new RegExp(custom.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+//     nums = parts[1];
+//   }
+
+//   const arr = nums.split(delimiter).map((n) => Number(n));
+
+//   const negatives = arr.filter((n) => n < 0);
+//   if (negatives.length)
+//     throw new Error(`negatives not allowed: ${negatives.join(",")}`);
+
+//   const valid = arr.filter((n) => n <= 1000);
+//   return valid.reduce((a, b) => a + b, 0);
+//   Example : add("1,1001,2,3")
+
+// Step 9 (support any-length delimiters //[***]\n)
+
   if (!numbers) return 0;
 
   let delimiter = /,|\n/;
@@ -75,9 +100,20 @@ export function add(numbers: string): number {
 
   if (numbers.startsWith("//")) {
     const parts = numbers.split("\n");
-    const custom = parts[0].substring(2);
-    // Escape regex special characters to avoid breaking RegExp
-    delimiter = new RegExp(custom.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+    const header = parts[0].substring(2); 
+
+    const matches = [...header.matchAll(/\[(.*?)\]/g)];
+
+    if (matches.length > 0) {
+      const escaped = matches
+        .map((m) => m[1].replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+        .join("|"); // combine multiple delimiters with OR
+      delimiter = new RegExp(escaped);
+    } else {
+      const escaped = header.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      delimiter = new RegExp(escaped);
+    }
+
     nums = parts[1];
   }
 
@@ -87,8 +123,10 @@ export function add(numbers: string): number {
   if (negatives.length)
     throw new Error(`negatives not allowed: ${negatives.join(",")}`);
 
+   //  Ignore numbers > 1000
   const valid = arr.filter((n) => n <= 1000);
   return valid.reduce((a, b) => a + b, 0);
-//   Example : add("1,1001,2,3")
+
+//   Example:add("//[***]\n1***2***3")
 
 }

@@ -66,32 +66,31 @@ export function add(numbers: string): number {
 
   //   Example: add("//#\n1#2#-3#4");
 
-
   // step-8 (ignore numbers greater than 1000)
-//   if (!numbers) return 0;
+  //   if (!numbers) return 0;
 
-//   let delimiter = /,|\n/;
-//   let nums = numbers;
+  //   let delimiter = /,|\n/;
+  //   let nums = numbers;
 
-//   if (numbers.startsWith("//")) {
-//     const parts = numbers.split("\n");
-//     const custom = parts[0].substring(2);
-//     // Escape regex special characters to avoid breaking RegExp
-//     delimiter = new RegExp(custom.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-//     nums = parts[1];
-//   }
+  //   if (numbers.startsWith("//")) {
+  //     const parts = numbers.split("\n");
+  //     const custom = parts[0].substring(2);
+  //     // Escape regex special characters to avoid breaking RegExp
+  //     delimiter = new RegExp(custom.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  //     nums = parts[1];
+  //   }
 
-//   const arr = nums.split(delimiter).map((n) => Number(n));
+  //   const arr = nums.split(delimiter).map((n) => Number(n));
 
-//   const negatives = arr.filter((n) => n < 0);
-//   if (negatives.length)
-//     throw new Error(`negatives not allowed: ${negatives.join(",")}`);
+  //   const negatives = arr.filter((n) => n < 0);
+  //   if (negatives.length)
+  //     throw new Error(`negatives not allowed: ${negatives.join(",")}`);
 
-//   const valid = arr.filter((n) => n <= 1000);
-//   return valid.reduce((a, b) => a + b, 0);
-//   Example : add("1,1001,2,3")
+  //   const valid = arr.filter((n) => n <= 1000);
+  //   return valid.reduce((a, b) => a + b, 0);
+  //   Example : add("1,1001,2,3")
 
-// Step 9 (support any-length delimiters //[***]\n)
+  // Step 9 (support any-length delimiters //[***]\n)
 
   if (!numbers) return 0;
 
@@ -100,7 +99,7 @@ export function add(numbers: string): number {
 
   if (numbers.startsWith("//")) {
     const parts = numbers.split("\n");
-    const header = parts[0].substring(2); 
+    const header = parts[0].substring(2);
 
     const matches = [...header.matchAll(/\[(.*?)\]/g)];
 
@@ -123,10 +122,12 @@ export function add(numbers: string): number {
   if (negatives.length)
     throw new Error(`negatives not allowed: ${negatives.join(",")}`);
 
-   //  Ignore numbers > 1000
+  //  Ignore numbers > 1000
   const valid = arr.filter((n) => n <= 1000);
   return valid.reduce((a, b) => a + b, 0);
 
-//   Example:add("//[***]\n1***2***3")
+  //   Example:add("//[***]\n1***2***3")
 
+  //step 10(support multiple delimiters ([delim1][delim2]) same code as step 9
+//   Example: add("//[&][!!][@@]\n1&2!!3@@4");
 }

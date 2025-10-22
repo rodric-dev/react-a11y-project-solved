@@ -6,6 +6,7 @@ const App = () => {
   const [result, setResult] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // Use this to Test in console of browser
   useEffect(() => {
     (window as any).add = add; // Expose the function globally
     console.log('%c🧪 You can now test add() in the browser console!', 'color: green; font-weight: bold;');

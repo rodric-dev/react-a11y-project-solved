@@ -129,5 +129,5 @@ export function add(numbers: string): number {
   //   Example:add("//[***]\n1***2***3")
 
   //step 10(support multiple delimiters ([delim1][delim2]) same code as step 9
-//   Example: add("//[&][!!][@@]\n1&2!!3@@4");
+  //   Example: add("//[&][!!][@@]\n1&2!!3@@4");
 }

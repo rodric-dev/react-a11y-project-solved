@@ -1,47 +1,121 @@
 import { useState } from 'react';
+import { add } from './stringCalculator';
 
 const App = () => {
   const [input, setInput] = useState('');
-  const [result] = useState(null);
+  const [result, setResult] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleCalculate = () => {};
+  const handleCalculate = () => {
+    try {
+      const res = add(input);
+      setResult(res);
+      setError(null);
+    } catch (err: any) {
+      setResult(null);
+      setError(err.message);
+    }
+  };
 
   return (
-    <div style={{ padding: '20px', backgroundColor: '#fff', color: '#aaa' }}>
+    <main
+      style={{
+        padding: '20px',
+        backgroundColor: '#fff',
+        color: '#222',
+        fontFamily: 'Arial, sans-serif',
+        lineHeight: '1.6',
+        maxWidth: '600px',
+        margin: 'auto',
+      }}
+    >
       <img
-        src='https://images.unsplash.com/photo-1594352161389-11756265d1b5?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+        src='https://images.unsplash.com/photo-1594352161389-11756265d1b5?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.1.0'
         width={600}
         height={400}
+        alt='A calculator on a desk with numbers visible'
+        style={{ borderRadius: '8px', width: '100%', height: 'auto' }}
       />
 
-      <h2>String Calculator</h2>
+      <h1 style={{ fontSize: '1.8rem', marginTop: '1rem' }}>String Calculator</h1>
 
-      <h1 style={{ fontSize: '20px' }}>Enter numbers</h1>
+      <label
+        htmlFor='numberInput'
+        style={{ display: 'block', fontWeight: 600, marginTop: '1rem' }}
+      >
+        Enter numbers (comma-separated)
+      </label>
 
       <textarea
-        style={{ margin: '10px 0', color: '#aaa' }}
-        placeholder='Enter numbers'
+        id='numberInput'
+        name='numberInput'
+        rows={4}
+        style={{
+          margin: '10px 0',
+          width: '100%',
+          padding: '10px',
+          border: '1px solid #ccc',
+          borderRadius: '4px',
+          color: '#222',
+          fontSize: '1rem',
+        }}
+        placeholder='e.g., 1,2,3 or //[*][%]\n1*2%3'
         value={input}
         onChange={(e) => setInput(e.target.value)}
+        aria-describedby='inputHelp'
       />
 
-      <div
+      <p id='inputHelp' style={{ fontSize: '0.9rem', color: '#555' }}>
+        Supports commas, newlines, or custom delimiters using // syntax.
+      </p>
+
+      <button
+        type='button'
         onClick={handleCalculate}
         style={{
-          padding: '10px',
-          backgroundColor: '#008cba',
+          padding: '10px 20px',
+          backgroundColor: '#007acc',
           color: '#fff',
           border: 'none',
-        }}>
+          borderRadius: '4px',
+          cursor: 'pointer',
+          fontSize: '1rem',
+        }}
+      >
         Calculate
-      </div>
+      </button>
 
-      {result !== null && <p style={{ color: 'green' }}>Result: {result}</p>}
+      {result !== null && (
+        <p
+          role='status'
+          aria-live='polite'
+          style={{
+            color: 'green',
+            marginTop: '1rem',
+            fontWeight: 'bold',
+            fontSize: '1.1rem',
+          }}
+        >
+          Result: {result}
+        </p>
+      )}
 
-      <div role='alert'>
-        <p>Make sure you enter numbers correctly!</p>
-      </div>
-    </div>
+      {error && (
+        <div
+          role='alert'
+          aria-live='assertive'
+          style={{
+            marginTop: '1rem',
+            backgroundColor: '#fdecea',
+            borderLeft: '4px solid #d93025',
+            padding: '10px',
+            color: '#d93025',
+          }}
+        >
+           {error}
+        </div>
+      )}
+    </main>
   );
 };
 

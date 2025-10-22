@@ -45,24 +45,50 @@ export function add(numbers: string): number {
   //   Example: add("//;\n1;2;3;4");
 
   // step 7 (throw error for negative numbers)
+  //   if (!numbers) return 0;
+
+  //   let delimiter = /,|\n/;
+  //   let nums = numbers;
+
+  //   if (numbers.startsWith("//")) {
+  //     const parts = String(numbers).split("\n");
+  //     const custom = parts[0].substring(2);
+  //     delimiter = new RegExp(custom);
+  //     nums = parts[1];
+  //   }
+
+  //   const arr = nums.split(delimiter).map((n) => Number(n));
+  //   const negatives = arr.filter((n) => n < 0);
+  //   if (negatives.length)
+  //     throw new Error(`negatives not allowed: ${negatives.join(",")}`);
+
+  //   return arr.reduce((a, b) => a + b, 0);
+
+  //   Example: add("//#\n1#2#-3#4");
+
+
+  // step-8
   if (!numbers) return 0;
 
   let delimiter = /,|\n/;
   let nums = numbers;
 
   if (numbers.startsWith("//")) {
-    const parts = String(numbers).split("\n");
+    const parts = numbers.split("\n");
     const custom = parts[0].substring(2);
-    delimiter = new RegExp(custom);
+    // Escape regex special characters to avoid breaking RegExp
+    delimiter = new RegExp(custom.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
     nums = parts[1];
   }
 
   const arr = nums.split(delimiter).map((n) => Number(n));
+
   const negatives = arr.filter((n) => n < 0);
   if (negatives.length)
     throw new Error(`negatives not allowed: ${negatives.join(",")}`);
 
-  return arr.reduce((a, b) => a + b, 0);
+  const valid = arr.filter((n) => n <= 1000);
+  return valid.reduce((a, b) => a + b, 0);
+//   Example : add("1,1001,2,3")
 
-//   Example: add("//#\n1#2#-3#4");
 }

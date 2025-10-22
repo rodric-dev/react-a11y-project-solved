@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { add } from './stringCalculator';
 
 const App = () => {
   const [input, setInput] = useState('');
   const [result, setResult] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    (window as any).add = add; // Expose the function globally
+    console.log('%c🧪 You can now test add() in the browser console!', 'color: green; font-weight: bold;');
+  }, []);
 
   const handleCalculate = () => {
     try {
@@ -112,7 +117,7 @@ const App = () => {
             color: '#d93025',
           }}
         >
-           {error}
+          {error}
         </div>
       )}
     </main>
